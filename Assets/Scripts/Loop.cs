@@ -5,7 +5,7 @@ using UnityEngine;
 public class Loop : MonoBehaviour
 {
     [SerializeField]
-    Enemy enemy_prefab;
+    Enemy head_prefab, hand_prefab;
     [SerializeField]
     ParticleSystem moving_stars, bg_stars;
     
@@ -28,14 +28,28 @@ public class Loop : MonoBehaviour
     
     public void CreateEnemies()
     {
-        for (int i = 0; i < 3; i++)
-        {
-            Enemy new_enemy = Instantiate(enemy_prefab);
-            all_enemies.Add(new_enemy);
-            new_enemy.position = i;
-            new_enemy.Initialize();
-        }
         
+        Enemy new_enemy = Instantiate(hand_prefab);
+        all_enemies.Add(new_enemy);
+        new_enemy.position = 1;
+        new_enemy.Initialize();
+
+        new_enemy = Instantiate(hand_prefab);
+        all_enemies.Add(new_enemy);
+        new_enemy.position = 2;
+        new_enemy.Initialize();
+
+        Vector3 ls = new_enemy.transform.localScale;
+        ls.x *= -1;
+        new_enemy.transform.localScale = ls;
+
+        new_enemy = Instantiate(head_prefab);
+        all_enemies.Add(new_enemy);
+        new_enemy.position = 0;
+        new_enemy.Initialize();
+        
+
+
     }
     [SerializeField]
     float bg_movement_duration = 2f;

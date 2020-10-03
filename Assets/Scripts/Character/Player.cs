@@ -44,6 +44,13 @@ public class Player : Character
             RefreshPosition();
         }
     }
+    public override void RefreshPosition()
+    {
+        GM.mirage.Play(transform.position);
+        base.RefreshPosition();
+        GetComponent<Mirage>().Play(transform.position, true);
+        hp_indicator.transform.position = transform.position + Vector3.down * 1.3f;
+    }
     public override void Initialize()
     {
         pos_x = pos_y = 1;
@@ -56,12 +63,21 @@ public class Player : Character
     }
     public static Vector2 GetPlayerGridWorldPosition(int x, int y)
     {
-        return new Vector2(-5.51f + x * 2f, -1.35f + y * 2f);
+        return new Vector2(-7.92f + x * 2f, -1.35f + y * 1.3f);
     }
 
     protected override void Die()
     {
         gameObject.SetActive(false);
         GM.enemy_attack.StopAttacking();
+    }
+    [SerializeField]
+    CircularIndicator _hp_indicator;
+    protected override CircularIndicator hp_indicator
+    {
+        get
+        {
+            return _hp_indicator;
+        }
     }
 }

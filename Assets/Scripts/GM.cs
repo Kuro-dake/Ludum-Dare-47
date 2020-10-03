@@ -53,5 +53,19 @@ public class GM : MonoBehaviour
     [SerializeField]
     EnemyAttack _enemy_attack;
     public static EnemyAttack enemy_attack { get { return inst._enemy_attack; } }
+
+    [SerializeField]
+    Mirage _mirage;
+    public static Mirage mirage { get { return inst._mirage; } }
+
+    [SerializeField]
+    Target target_prefab;
+
+    public static Target CreateTarget()
+    {
+        Target ret = Instantiate(inst.target_prefab);
+        return ret;
+    }
+
     #endregion
 }

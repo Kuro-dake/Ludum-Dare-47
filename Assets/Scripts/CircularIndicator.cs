@@ -57,6 +57,7 @@ public class CircularIndicator : MonoBehaviour
             marker.transform.SetParent(transform);
             marker.transform.localScale = Vector2.one * segment_size;
             SpriteRenderer sr = marker.GetComponent<SpriteRenderer>();
+            
             sr.sortingLayerName = "UI";
         }
     }

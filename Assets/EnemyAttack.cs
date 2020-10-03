@@ -53,8 +53,10 @@ public class EnemyAttack : MonoBehaviour
     {
         foreach(Pair<int,int> p in to_be_attacked)
         {
+            
             if(p.first == GM.player.pos_x && p.second == GM.player.pos_y)
             {
+                Debug.Log(p.first + " " + p.second);
                 GM.loop.all_enemies[0].Attack(GM.player);
                 break;
             }
@@ -63,6 +65,7 @@ public class EnemyAttack : MonoBehaviour
     void ClearMarkers()
     {
         attack_markers.ForEach(delegate (GameObject go) { Destroy(go); });
+        to_be_attacked.Clear();
     }
     [SerializeField]
     int avoid_phase_rounds = 3;
@@ -84,8 +87,10 @@ public class EnemyAttack : MonoBehaviour
             {
                 foreach (Pair<int, int> p in current_loop_round.DequeueAttackedPositions())
                 {
-                    GameObject marker = GM.CreateCircle();
+                    GameObject marker = GM.CreateTarget().gameObject;
+                    to_be_attacked.Add(p);
                     marker.transform.position = Player.GetPlayerGridWorldPosition(p.first, p.second);
+                    marker.GetComponent<SpriteRenderer>().sortingLayerName = "AboveGround";
                     attack_markers.Add(marker);
                     marker.AddComponent<Pulsar>();
                 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Character : MonoBehaviour
 {
-    CircularIndicator hp_indicator { get { return GetComponentInChildren<CircularIndicator>(); } }
+    protected virtual CircularIndicator hp_indicator { get { return GetComponentInChildren<CircularIndicator>(); } }
     // Start is called before the first frame update
 
     public Character target;
@@ -15,11 +15,11 @@ public abstract class Character : MonoBehaviour
     protected float attack_timeout = .3f;
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         //UpdateAttack();
     }
-    public void RefreshPosition()
+    public virtual void RefreshPosition()
     {
         transform.position = world_position;
     }
@@ -32,6 +32,7 @@ public abstract class Character : MonoBehaviour
     public void Attack(Character target)
     {
         target.ReceiveDamage(1);
+    
         /*Missile m = Instantiate(GM.missile_prefab);
         m.transform.position = transform.position;
         m.Initialize(target);*/
@@ -85,6 +86,10 @@ public abstract class Character : MonoBehaviour
     {
         get
         {
+            if (position == 2)
+            {
+                return new Vector2(8.56f, 1.09f);
+            }
             return new Vector2(position == 1 ? 3.13f : 5.78f, 1.43f + position * -2.49f);
         }
     }
