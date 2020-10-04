@@ -47,6 +47,7 @@ public class Loop : MonoBehaviour
         all_enemies.Add(new_enemy);
         new_enemy.position = 0;
         new_enemy.Initialize();
+        new_enemy.head = true;
         
 
 

@@ -4,6 +4,33 @@ using UnityEngine;
 
 public class Enemy : Character
 {
+
+    bool _shielded = false;
+    public bool shielded { 
+        get {
+            return _shielded;
+        }  
+        set {
+            _shielded = value;
+            if(shield == null)
+            {
+                shield = GM.effects["shield"];
+                shield.GetComponent<FollowTransform>().to_follow = transform;
+            }
+            if (value)
+            {
+                shield.Play(transform.position);
+
+            }
+            else
+            {
+                shield.Stop();
+            }
+            
+        }
+    }
+    public bool head = false;
+
     public override void Initialize()
     {
         base.Initialize();
@@ -13,6 +40,7 @@ public class Enemy : Character
         StartCoroutine(RandomMovement());
     }
     Vector2 orig_pos;
+    Effect shield = null;
     IEnumerator RandomMovement()
     {
 
@@ -35,5 +63,11 @@ public class Enemy : Character
     {
         base.Update();
 
+    }
+
+    protected override void Die()
+    {
+        base.Die();
+        shield.Stop();
     }
 }

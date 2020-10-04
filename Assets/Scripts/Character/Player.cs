@@ -44,11 +44,12 @@ public class Player : Character
             RefreshPosition();
         }
     }
+    public Mirage mirage { get { return GetComponent<Mirage>(); } }
     public override void RefreshPosition()
     {
         GM.mirage.Play(transform.position);
         base.RefreshPosition();
-        GetComponent<Mirage>().Play(transform.position, true);
+        mirage.Play(transform.position, true);
         hp_indicator.transform.position = transform.position + Vector3.down * 1.3f;
     }
     public override void Initialize()

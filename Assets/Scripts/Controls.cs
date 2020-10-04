@@ -30,10 +30,17 @@ public class Controls : MonoBehaviour
             Collider2D col = Physics2D.OverlapCircle(GM.cursor.mouse_world_position, .1f, enemy_mask);
             if(col != null)
             {
-                Debug.Log(col.name);
-                GM.player.Attack(col.GetComponent<Enemy>());
-                GM.enemy_attack.can_attack = false;
-                // attack enemy
+                if (col.GetComponent<Enemy>().shielded)
+                {
+                    
+                    GM.player.Attack(col.GetComponent<Enemy>());
+                    //GM.enemy_attack.can_attack = false;
+                    // attack enemy
+                    GM.mirage.Play(col.transform.position + Vector3.down * .5f + Vector3.left * .5f);
+                    GM.player.mirage.Play(GM.player.transform.position, true);
+                    GM.sound.PlayResource("move", .05f, new FloatRange(3.1f, 3.3f));
+                    GM.sound.PlayResource("hit", .5f, new FloatRange(1f, 1.2f));
+                }
                 
             }
         }
@@ -42,6 +49,7 @@ public class Controls : MonoBehaviour
             if (Input.GetKeyDown(kv.Key))
             {
                 GM.player.position += kv.Value;
+                GM.sound.PlayResource("move", .05f, new FloatRange(3.1f,3.3f));
             }
         }
     }

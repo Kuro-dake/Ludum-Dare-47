@@ -203,11 +203,7 @@ public class NamedAudioClip : Pair<string, AudioClip>
 {
     public NamedAudioClip(string s, AudioClip a) : base(s, a) { }
 }
-/*[System.Serializable]
-public class NamedEffect : Pair<string, Effect>
-{
-    public NamedEffect(string s, Effect a) : base(s, a) { }
-}*/
+
 
 public class Pair<T1, T2>
 {

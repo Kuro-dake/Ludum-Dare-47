@@ -40,7 +40,7 @@ public class Mirage : MonoBehaviour
 
 
         Vector2 target_scale = new Vector2(orig_scale.x * x_scale_target , orig_scale.y * y_scale_target);
-        SpriteRenderer[] srs = GetComponentsInChildren<SpriteRenderer>();
+        SpriteRenderer[] srs = GetComponentsInChildren<SpriteRenderer>(true);
         while(!Mathf.Approximately(current, current_target))
         {
             current = Mathf.MoveTowards(current, current_target, Time.deltaTime * duration_inverse);

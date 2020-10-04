@@ -67,5 +67,19 @@ public class GM : MonoBehaviour
         return ret;
     }
 
+    [SerializeField]
+    AudioManager _sound;
+    public static AudioManager sound { get { return inst._sound; } }
+
+    [SerializeField]
+    EffectsManager _effects;
+    public static EffectsManager effects { get { return inst._effects; } }
+
+    [SerializeField]
+    UIManager _ui;
+    public static UIManager ui
+    {
+        get { return inst._ui; }
+    }
     #endregion
 }
