@@ -67,6 +67,22 @@ public class Player : Character
         return new Vector2(-7.92f + x * 2f, -1.35f + y * 1.3f);
     }
 
+    public void Appear()
+    {
+        transform.Find("someone").Find("eyeglow").gameObject.SetActive(true);
+        transform.Find("someone").Find("eyeglow (1)").gameObject.SetActive(true);
+        mirage.Play(transform.position, true);
+        GM.sound.PlayResource("move", .2f, new FloatRange(2.1f, 2.3f));
+    }
+
+    public void Disappear()
+    {
+        transform.Find("someone").Find("eyeglow").gameObject.SetActive(false);
+        transform.Find("someone").Find("eyeglow (1)").gameObject.SetActive(false);
+        mirage.Play(transform.position);
+        GM.sound.PlayResource("move", .2f, new FloatRange(2.1f, 2.3f));
+    }
+
     protected override void Die()
     {
         gameObject.SetActive(false);

@@ -4,8 +4,9 @@ using UnityEngine;
 
 public abstract class Character : MonoBehaviour
 {
+    [SerializeField]
     CircularIndicator _hp_indicator;
-    protected virtual CircularIndicator hp_indicator { get { return _hp_indicator; } }
+    public virtual CircularIndicator hp_indicator { get { return _hp_indicator; } }
     // Start is called before the first frame update
 
     public Character target;
@@ -27,12 +28,15 @@ public abstract class Character : MonoBehaviour
     public virtual void Initialize()
     {
         RefreshPosition();
-        
-        _hp_indicator = Instantiate(GM.indicator_prefab);
-        FollowTransform ft = _hp_indicator.GetComponent<FollowTransform>();
-        ft.to_follow = transform;
-        ft.offset = Vector2.down * 2.2f;
-        
+        if(!(this is Player))
+        {
+            _hp_indicator = Instantiate(GM.indicator_prefab);
+            FollowTransform ft = _hp_indicator.GetComponent<FollowTransform>();
+            ft.to_follow = transform;
+            ft.offset = Vector2.down * 2.2f;
+
+        }
+
         hp_indicator.SetNumber(hp);
     }
 
@@ -91,7 +95,7 @@ public abstract class Character : MonoBehaviour
     static Dictionary<int, Vector2> positions = new Dictionary<int, Vector2>() {
         {0, new Vector2(5.78f, 1.43f) },
         {1, new Vector2(3.13f, -1.06f) },
-        {2, new Vector2(8.56f, 1.09f) },
+        {2, new Vector2(8.56f, 0.79f) },
         {3, new Vector2(6.05f, -2.07f) },
         {4, new Vector2(4.85f, 6.48f) },
     };

@@ -8,6 +8,24 @@ public class CircularIndicator : MonoBehaviour
     public int current { get; protected set; }
     [SerializeField]
     Color color;
+    bool _show;
+    public bool show
+    {
+        get
+        {
+            return _show;
+        }
+
+        set
+        {
+            _show = value;
+            foreach(SpriteRenderer sr in transform.GetComponentsInChildren<SpriteRenderer>())
+            {
+                sr.color = value ? color : Color.clear;
+            }
+        }
+    }
+
     private void Update()
     {
 

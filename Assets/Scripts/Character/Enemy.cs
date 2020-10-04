@@ -68,6 +68,7 @@ public class Enemy : Character
     protected override void Die()
     {
         base.Die();
+        GM.loop.ShowHideHeadHP();
         shield.Stop();
     }
 }

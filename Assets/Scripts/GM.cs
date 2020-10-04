@@ -27,15 +27,17 @@ public class GM : MonoBehaviour
             yield return null;
         }
 
-        yield return intro.Play();
+        yield return _island.Play();
 
-        player.mirage.Play(player.transform.position, true);
-        player.transform.Find("someone").Find("eyeglow").gameObject.SetActive(true);
-        player.transform.Find("someone").Find("eyeglow (1)").gameObject.SetActive(true);
-        GM.sound.PlayResource("move", .2f, new FloatRange(2.1f, 2.3f));
-        /*enemy_attack.Initialize();
+        
+        
+        enemy_attack.Initialize();
         player.Initialize();
-        loop.Initialize();*/
+        loop.Initialize();
+
+        player.Appear();
+
+        controls.active = true;
     }
 
     public bool shake_screen = false;
@@ -131,7 +133,11 @@ public class GM : MonoBehaviour
     [SerializeField]
     CircularIndicator _indicator_prefab;
     [SerializeField]
-    introPlayer intro;
+    islandPlayer _island;
+    public static islandPlayer island
+    {
+        get { return inst._island; }
+    }
     public static CircularIndicator indicator_prefab
     {
         get { return inst._indicator_prefab; }

@@ -13,8 +13,8 @@ public class EnemyAttack : MonoBehaviour
 
         List<LoopRound> rq = new List<LoopRound>() {
             //new LoopRound(1,3,new IntRange(6,8)),
-            new LoopRound(2,3,new IntRange(6,8)),
-            new LoopRound(5,4,new IntRange(4,5))
+            //new LoopRound(2,1,new IntRange(6,8),1,4,1),
+            new LoopRound(5,4,new IntRange(4,5),5,8,16)
         };
 
         rounds = new Queue<LoopRound>(rq);
@@ -34,8 +34,8 @@ public class EnemyAttack : MonoBehaviour
         StopAttacking();
         if (rounds.Count > 0)
         {
-            GM.loop.CreateEnemies();
             current_loop_round = rounds.Dequeue();
+            GM.loop.CreateEnemies();
             attack_routine = StartCoroutine(AttackStep());
         }
         else
@@ -49,10 +49,11 @@ public class EnemyAttack : MonoBehaviour
     List<Pair<int, int>> to_be_attacked = new List<Pair<int, int>>();
     List<GameObject> attack_markers = new List<GameObject>();
 
+    
     void CheckAttack()
     {
         float volume = .3f / to_be_attacked.Count;
-        Transform head = GameObject.Find("Head(Clone)").transform;
+        Transform head = GM.loop.head.transform;
         Transform eye1 = head.Find("someone").Find("eyeglow");
         Transform eye2 = head.Find("someone").Find("eyeglow (1)");
 
@@ -72,6 +73,7 @@ public class EnemyAttack : MonoBehaviour
                 GM.loop.all_enemies[0].Attack(GM.player);
                 GM.ShakeScreen();
                 GM.sound.PlayResource("hit", 1f, new FloatRange(1f, 1.2f));
+                GM.effects["hit"].Play(GM.player.transform.position + Random.insideUnitCircle.Vector3() * .5f + Vector3.up * 1.5f);
             }
             GM.sound.PlayResource("explode", volume, new FloatRange(.5f, .7f));
         }
@@ -93,7 +95,7 @@ public class EnemyAttack : MonoBehaviour
             _can_attack = value;
             //can_attack_indicator.gameObject.SetActive(value);
         } }
-    LoopRound current_loop_round;
+    public LoopRound current_loop_round;
 
     void SetShields(bool shields)
     {

@@ -10,7 +10,13 @@ public class Loop : MonoBehaviour
     ParticleSystem moving_stars, bg_stars;
     
     public List<Enemy> all_enemies = new List<Enemy>();
-    
+    public List<Enemy> alive_enemies { get
+        {
+            return all_enemies.FindAll(delegate (Enemy e)
+            {
+                return e.is_alive;
+            });
+        } }
     public void Initialize()
     {
         StartCoroutine(EnemyLoop());
@@ -25,8 +31,12 @@ public class Loop : MonoBehaviour
         }
         GM.enemy_attack.can_attack = false;
     }
-    Queue<LoopRound> rounds = new Queue<LoopRound>();
-    Enemy CreateEnemy(int position, int hp)
+    
+    public Enemy head;
+    public void ShowHideHeadHP() {
+        head.hp_indicator.show = alive_enemies.Count < 2;
+    }
+    Enemy CreateEnemy(int position, int hand_hp, int head_hp)
     {
         Enemy new_enemy = null;
         switch(position){
@@ -34,6 +44,7 @@ public class Loop : MonoBehaviour
             case 0:
                 new_enemy = Instantiate(head_prefab);
                 new_enemy.head = true;
+                head = new_enemy;
                 break;
             
             case 1:
@@ -63,29 +74,42 @@ public class Loop : MonoBehaviour
 
         all_enemies.Add(new_enemy);
         new_enemy.position = position;
-        new_enemy.hp = 1;
+        new_enemy.hp = position == 0 ? head_hp : hand_hp;
         new_enemy.Initialize();
 
         return new_enemy;
     }
     public void CreateEnemies()
     {
-        
-        for(int i = 0; i< 5; i++)
+        LoopRound current = GM.enemy_attack.current_loop_round;
+        for (int i = 0; i< current.enemy_number; i++)
         {
-            CreateEnemy(i, 1);
+            CreateEnemy(i, current.hand_hp, current.head_hp);
         }
-
+        ShowHideHeadHP();
 
     }
     [SerializeField]
     float bg_movement_duration = 2f;
     IEnumerator MoveToNextNode()
     {
+        GM.controls.active = false;
+        yield return new WaitForSeconds(.5f);
+        GM.player.Disappear();
+        yield return GM.island.Play(false);
+        yield return new WaitForSeconds(.2f);
         moving_stars.Play();
         yield return StartCoroutine(BGMovementStep());
         
         moving_stars.Stop();
+
+        yield return new WaitForSeconds(1f);
+        yield return GM.island.Play();
+
+        GM.player.Appear();
+
+        GM.controls.active = true;
+
         yield return new WaitForSeconds(1f);
     }
     [SerializeField]

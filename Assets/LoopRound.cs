@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-class LoopRound
+public class LoopRound
 {
     Queue<Queue<List<Pair<int, int>>>> current_rounds_queue = new Queue<Queue<List<Pair<int, int>>>>();
     Queue<Queue<List<Pair<int, int>>>> rounds_queue = new Queue<Queue<List<Pair<int, int>>>>();
@@ -21,7 +21,12 @@ class LoopRound
         return to_be_attacked;
     }
     public int rounds_number { get; protected set; }
-    public LoopRound(int attack_rounds, int attack_rounds_sequence, IntRange free_spots)
+
+    public int hand_hp = 3;
+    public int head_hp = 3;
+    public int enemy_number = 3;
+
+    public LoopRound(int attack_rounds, int attack_rounds_sequence, IntRange free_spots, int _enemy_number, int _hand_hp, int _head_hp)
     {
         Random.State prev_state = Random.state;
         rounds_number = attack_rounds;
@@ -35,6 +40,9 @@ class LoopRound
             }
             rounds_queue.Enqueue(q);
         }
+        hand_hp = _hand_hp;
+        head_hp = _head_hp;
+        enemy_number = _enemy_number;
         Random.state = prev_state;
         NextSequence();
     }

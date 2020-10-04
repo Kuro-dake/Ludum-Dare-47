@@ -28,7 +28,7 @@ public class Controls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!GM.player.is_alive)
+        if (!GM.player.is_alive || !active)
         {
             return;
         }
@@ -79,7 +79,7 @@ public class Controls : MonoBehaviour
         }
         
     }
-
+    public bool active = false;
     void Attack(Enemy e)
     {
         GM.player.Attack(e);
@@ -89,6 +89,7 @@ public class Controls : MonoBehaviour
         GM.player.mirage.Play(GM.player.transform.position, true);
         GM.sound.PlayResource("move", .02f, new FloatRange(2.1f, 2.3f));
         GM.sound.PlayResource("hit", 1f, new FloatRange(1f, 1.2f));
+        GM.effects["hit"].Play(e.transform.position);
         GM.ShakeScreen();
     }
 }
