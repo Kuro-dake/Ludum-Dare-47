@@ -17,7 +17,11 @@ public class Controls : MonoBehaviour
         {KeyCode.A, Vector2Int.left },
         {KeyCode.D, Vector2Int.right },
     };
-
+    Dictionary<KeyCode, int> enemy_positions = new Dictionary<KeyCode, int>() {
+        {KeyCode.A,  1},
+        {KeyCode.D, 2 },
+        {KeyCode.Q, 0 }
+    };
     // Update is called once per frame
     void Update()
     {
@@ -33,26 +37,54 @@ public class Controls : MonoBehaviour
                 if (col.GetComponent<Enemy>().shielded)
                 {
                     
-                    GM.player.Attack(col.GetComponent<Enemy>());
-                    //GM.enemy_attack.can_attack = false;
-                    // attack enemy
-                    GM.mirage.Play(col.transform.position + Vector3.down * .5f + Vector3.left * .5f);
-                    GM.player.mirage.Play(GM.player.transform.position, true);
-                    GM.sound.PlayResource("move", .05f, new FloatRange(3.1f, 3.3f));
-                    GM.sound.PlayResource("hit", .5f, new FloatRange(1f, 1.2f));
+                    //Attack(col.GetComponent<Enemy>());
+                    
                 }
                 
             }
         }
-        foreach(KeyValuePair<KeyCode, Vector2Int> kv in dirs)
+        if (!GM.enemy_attack.can_attack)
         {
-            if (Input.GetKeyDown(kv.Key))
+            foreach (KeyValuePair<KeyCode, Vector2Int> kv in dirs)
             {
-                GM.player.position += kv.Value;
-                GM.sound.PlayResource("move", .05f, new FloatRange(3.1f,3.3f));
+                if (Input.GetKeyDown(kv.Key))
+                {
+                    GM.player.position += kv.Value;
+                    GM.sound.PlayResource("move", .05f, new FloatRange(3.1f, 3.3f));
+                }
             }
         }
+        else
+        {
+            if (GM.enemy_attack.can_attack)
+            {
+                foreach(KeyValuePair<KeyCode, int> kv in enemy_positions)
+                {
+                    if (Input.GetKeyDown(kv.Key))
+                    {
+                        Enemy e = GM.loop.GetEnemyAtPosition(kv.Value);
+                        if (e.shielded)
+                        {
+                            Attack(e);
+                        }
+                        break;
+                    }
+                    
+                }
+                
+            }
+        }
+        
     }
 
-    
+    void Attack(Enemy e)
+    {
+        GM.player.Attack(e);
+        //GM.enemy_attack.can_attack = false;
+        // attack enemy
+        GM.mirage.Play(e.transform.position + Vector3.down * .5f + Vector3.left * .5f);
+        GM.player.mirage.Play(GM.player.transform.position, true);
+        GM.sound.PlayResource("move", .05f, new FloatRange(3.1f, 3.3f));
+        GM.sound.PlayResource("hit", .5f, new FloatRange(1f, 1.2f));
+    }
 }

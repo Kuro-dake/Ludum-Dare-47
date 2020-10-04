@@ -1,52 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &302694630933185185
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 302694630933185186}
-  - component: {fileID: 302694630933185187}
-  m_Layer: 8
-  m_Name: CircularIndicator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &302694630933185186
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 302694630933185185}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -6.31, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 302694631584274754}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &302694630933185187
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 302694630933185185}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b42f61eca4b60044885b52db6c97b70, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  max: 0
-  color: {r: 1, g: 1, b: 1, a: 0.8392157}
-  segment_size: 2.5
-  distance_from_center: 0.5
 --- !u!1 &302694631584274757
 GameObject:
   m_ObjectHideFlags: 0
@@ -79,7 +32,6 @@ Transform:
   m_LocalPosition: {x: 3.13, y: -1.06, z: 0}
   m_LocalScale: {x: 0.4, y: 0.4, z: 1}
   m_Children:
-  - {fileID: 302694630933185186}
   - {fileID: 6832942459700734360}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -493,7 +445,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6548268902083676094, guid: 58a5cec2ce9d35c47b4782766a23dfac, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6548268902083676094, guid: 58a5cec2ce9d35c47b4782766a23dfac, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

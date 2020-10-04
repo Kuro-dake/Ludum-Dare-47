@@ -51,7 +51,18 @@ public class EnemyAttack : MonoBehaviour
 
     void CheckAttack()
     {
-        float volume = .6f / to_be_attacked.Count;
+        float volume = .3f / to_be_attacked.Count;
+        Transform head = GameObject.Find("Head(Clone)").transform;
+        Transform eye1 = head.Find("someone").Find("eyeglow");
+        Transform eye2 = head.Find("someone").Find("eyeglow (1)");
+
+        Effect e = GM.effects["explosion"];
+        e.transform.localScale = Vector3.one * .5f;
+        e.Play(eye1.position);
+        e = GM.effects["explosion"];
+        e.transform.localScale = Vector3.one * .5f;
+        GM.effects["explosion"].Play(eye2.position);
+
         foreach (Pair<int, int> p in to_be_attacked)
         {
             GM.effects["explosion"].Play(Player.GetPlayerGridWorldPosition(p.first, p.second));
@@ -61,7 +72,7 @@ public class EnemyAttack : MonoBehaviour
                 GM.loop.all_enemies[0].Attack(GM.player);
 
             }
-            GM.sound.PlayResource("explode", volume, new FloatRange(1.5f, 1.7f));
+            GM.sound.PlayResource("explode", volume, new FloatRange(.5f, .7f));
         }
     }
     void ClearMarkers()
@@ -79,7 +90,7 @@ public class EnemyAttack : MonoBehaviour
         }
         set {
             _can_attack = value;
-            can_attack_indicator.gameObject.SetActive(value);
+            //can_attack_indicator.gameObject.SetActive(value);
         } }
     LoopRound current_loop_round;
 

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public abstract class Character : MonoBehaviour
 {
-    protected virtual CircularIndicator hp_indicator { get { return GetComponentInChildren<CircularIndicator>(); } }
+    CircularIndicator _hp_indicator;
+    protected virtual CircularIndicator hp_indicator { get { return _hp_indicator; } }
     // Start is called before the first frame update
 
     public Character target;
@@ -26,6 +27,12 @@ public abstract class Character : MonoBehaviour
     public virtual void Initialize()
     {
         RefreshPosition();
+        
+        _hp_indicator = Instantiate(GM.indicator_prefab);
+        FollowTransform ft = _hp_indicator.GetComponent<FollowTransform>();
+        ft.to_follow = transform;
+        ft.offset = Vector2.down * 2.2f;
+        
         hp_indicator.SetNumber(hp);
     }
 
@@ -81,16 +88,18 @@ public abstract class Character : MonoBehaviour
     }
 
     public int position;
-
+    static Dictionary<int, Vector2> positions = new Dictionary<int, Vector2>() {
+        {0, new Vector2(5.78f, 1.43f) },
+        {1, new Vector2(3.13f, -1.06f) },
+        {2, new Vector2(8.56f, 1.09f) },
+        {3, new Vector2(6.05f, -2.07f) },
+        {4, new Vector2(4.85f, 6.48f) },
+    };
     public virtual Vector2 world_position
     {
         get
         {
-            if (position == 2)
-            {
-                return new Vector2(8.56f, 1.09f);
-            }
-            return new Vector2(position == 1 ? 3.13f : 5.78f, 1.43f + position * -2.49f);
+            return positions[position];
         }
     }
 }

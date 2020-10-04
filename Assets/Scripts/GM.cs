@@ -81,5 +81,12 @@ public class GM : MonoBehaviour
     {
         get { return inst._ui; }
     }
+
+    [SerializeField]
+    CircularIndicator _indicator_prefab;
+    public static CircularIndicator indicator_prefab
+    {
+        get { return inst._indicator_prefab; }
+    }
     #endregion
 }

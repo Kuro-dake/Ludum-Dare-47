@@ -50,7 +50,7 @@ public class Player : Character
         GM.mirage.Play(transform.position);
         base.RefreshPosition();
         mirage.Play(transform.position, true);
-        hp_indicator.transform.position = transform.position + Vector3.down * 1.3f;
+        //hp_indicator.transform.position = transform.position + Vector3.down * 1.3f;
     }
     public override void Initialize()
     {
@@ -72,7 +72,7 @@ public class Player : Character
         gameObject.SetActive(false);
         GM.enemy_attack.StopAttacking();
     }
-    [SerializeField]
+    /*[SerializeField]
     CircularIndicator _hp_indicator;
     protected override CircularIndicator hp_indicator
     {
@@ -80,5 +80,5 @@ public class Player : Character
         {
             return _hp_indicator;
         }
-    }
+    }*/
 }

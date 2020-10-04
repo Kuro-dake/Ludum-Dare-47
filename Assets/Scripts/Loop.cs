@@ -25,30 +25,54 @@ public class Loop : MonoBehaviour
         }
     }
     Queue<LoopRound> rounds = new Queue<LoopRound>();
-    
+    Enemy CreateEnemy(int position)
+    {
+        Enemy new_enemy = null;
+        switch(position){
+
+            case 0:
+                new_enemy = Instantiate(head_prefab);
+                new_enemy.head = true;
+                break;
+            
+            case 1:
+                new_enemy = Instantiate(hand_prefab);
+                new_enemy.GetComponent<Animator>().SetBool("hand", true);
+                
+                break;
+            
+            case 2:
+                new_enemy = Instantiate(hand_prefab);
+                Vector3 ls = new_enemy.transform.localScale;
+                ls.x *= -1;
+                new_enemy.transform.localScale = ls;
+                break;
+
+            case 3:
+                new_enemy = Instantiate(hand_prefab);
+                break;
+            case 4:
+
+                new_enemy = Instantiate(hand_prefab);
+                new_enemy.GetComponent<Animator>().SetBool("hand", true);
+            
+                break;
+            
+        }
+
+        all_enemies.Add(new_enemy);
+        new_enemy.position = position;
+        new_enemy.Initialize();
+
+        return new_enemy;
+    }
     public void CreateEnemies()
     {
         
-        Enemy new_enemy = Instantiate(hand_prefab);
-        all_enemies.Add(new_enemy);
-        new_enemy.position = 1;
-        new_enemy.Initialize();
-
-        new_enemy = Instantiate(hand_prefab);
-        all_enemies.Add(new_enemy);
-        new_enemy.position = 2;
-        new_enemy.Initialize();
-
-        Vector3 ls = new_enemy.transform.localScale;
-        ls.x *= -1;
-        new_enemy.transform.localScale = ls;
-
-        new_enemy = Instantiate(head_prefab);
-        all_enemies.Add(new_enemy);
-        new_enemy.position = 0;
-        new_enemy.Initialize();
-        new_enemy.head = true;
-        
+        for(int i = 0; i< 5; i++)
+        {
+            CreateEnemy(i);
+        }
 
 
     }
@@ -101,6 +125,14 @@ public class Loop : MonoBehaviour
             yield return MoveToNextNode();
             
         }
+    }
+
+    public Enemy GetEnemyAtPosition(int position)
+    {
+        return all_enemies.Find(delegate (Enemy e)
+        {
+            return e.position == position;
+        });
     }
 
     
