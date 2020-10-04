@@ -9820,6 +9820,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21341ca3e7fcfbe4ab691a60338e0a35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hp_indicator: {fileID: 0}
   target: {fileID: 0}
   attack_timeout: 3
   hp: 10
