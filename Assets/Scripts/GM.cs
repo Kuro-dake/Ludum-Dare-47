@@ -23,22 +23,19 @@ public class GM : MonoBehaviour
 
     IEnumerator Appear()
     {
-        while (!Input.GetKeyDown(KeyCode.Space))
-        {
-            yield return null;
-        }
-
+        yield return new WaitForSeconds(.5f);
         yield return _island.Play();
 
-        //player.Appear();
+        
         player.Initialize();
+        player.Appear();
         keys.ShowControls();
         controls.active = true;
         while (!Input.GetKeyDown(KeyCode.W) && !Input.GetKeyDown(KeyCode.A) && !Input.GetKeyDown(KeyCode.S) && !Input.GetKeyDown(KeyCode.D))
         {
             yield return null;
         }
-        
+        keys.HideAll();
         enemy_attack.Initialize();
         
         loop.Initialize();

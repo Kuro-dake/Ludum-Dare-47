@@ -15,11 +15,27 @@ public class PlayParticleSystemEffect : Effect
     {
         base.Play(position);
         ps.Play();
+        if (disable_on_not_playing)
+        {
+            StartCoroutine(WaitToStop());
+        }
     }
 
     public override void Stop()
     {
         base.Stop();
         ps.Stop();
+    }
+
+    [SerializeField]
+    bool disable_on_not_playing = false;
+
+    IEnumerator WaitToStop()
+    {
+        while(is_playing){
+            yield return null;
+        }
+
+        Destroy(gameObject);
     }
 }

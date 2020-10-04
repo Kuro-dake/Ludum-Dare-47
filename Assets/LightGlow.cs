@@ -15,6 +15,10 @@ public class LightGlow : MonoBehaviour
     Light2D source { get { return GetComponent<Light2D>(); } }
     Color GetRandomColorFromParentParticleSystem()
     {
+        if(GetComponentInParent<ParticleSystem>() == null)
+        {
+            return source.color;
+        }
         Color ret = Color.Lerp(
                 GetComponentInParent<ParticleSystem>().main.startColor.colorMin,
                 GetComponentInParent<ParticleSystem>().main.startColor.colorMax,

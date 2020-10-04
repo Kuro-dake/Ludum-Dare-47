@@ -32,7 +32,7 @@ public class Controls : MonoBehaviour
         {
             return;
         }
-        if (Input.GetKeyDown(KeyCode.Mouse0) && GM.enemy_attack.can_attack)
+       /* if (Input.GetKeyDown(KeyCode.Mouse0) && GM.enemy_attack.can_attack)
         {
             Collider2D col = Physics2D.OverlapCircle(GM.cursor.mouse_world_position, .1f, enemy_mask);
             if(col != null)
@@ -45,7 +45,7 @@ public class Controls : MonoBehaviour
                 }
                 
             }
-        }
+        }*/
         if (!GM.enemy_attack.can_attack)
         {
             foreach (KeyValuePair<KeyCode, Vector2Int> kv in dirs)

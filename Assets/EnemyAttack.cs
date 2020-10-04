@@ -2,19 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Experimental.Rendering.Universal;
+
 public class EnemyAttack : MonoBehaviour
 {
     Coroutine attack_routine;
-    Queue<LoopRound> rounds;
+    public Queue<LoopRound> rounds { get; protected set; }
     public void Initialize()
     {
 
         LoopRound.InitializeStatic();
 
         List<LoopRound> rq = new List<LoopRound>() {
-            //new LoopRound(1,3,new IntRange(6,8)),
-            new LoopRound(2,1,new IntRange(6,8),1,4,1),
-            new LoopRound(5,4,new IntRange(4,5),5,8,16)
+            
+            new LoopRound(2, 2, new IntRange(5,7), 1 ,1,5),
+            new LoopRound(3, 2, new IntRange(4,6), 2, 3,6),
+            new LoopRound(4, 3, new IntRange(3,5), 3, 4, 7),
+            new LoopRound(5, 4, new IntRange(2,5), 4, 4, 7),
+            new LoopRound(6, 5, new IntRange(1,3), 5, 6, 10),
+            
+            
         };
 
         rounds = new Queue<LoopRound>(rq);
@@ -29,7 +36,7 @@ public class EnemyAttack : MonoBehaviour
         }
     }
 
-    public void StartAttacking(bool dequeue = true)
+    public bool StartAttacking(bool dequeue = true)
     {
         StopAttacking();
         if (rounds.Count > 0 || !dequeue)
@@ -49,10 +56,13 @@ public class EnemyAttack : MonoBehaviour
 
             GM.loop.CreateEnemies();
             attack_routine = StartCoroutine(AttackStep());
+            return true;
         }
         else
         {
-            Debug.Log("victory");
+            
+            return false;
+            
         }
     }
     [SerializeField]
@@ -72,13 +82,21 @@ public class EnemyAttack : MonoBehaviour
         Effect e = GM.effects["explosion"];
         e.transform.localScale = Vector3.one * .5f;
         e.Play(eye1.position);
+        Destroy(e.GetComponent<Light2D>());
+        Destroy(e.GetComponent<LightGlow>());;
         e = GM.effects["explosion"];
         e.transform.localScale = Vector3.one * .5f;
-        GM.effects["explosion"].Play(eye2.position);
+        e.Play(eye2.position);
+
+        Destroy(e.GetComponent<Light2D>());
+        Destroy(e.GetComponent<LightGlow>()); ;
 
         foreach (Pair<int, int> p in to_be_attacked)
         {
-            GM.effects["explosion"].Play(Player.GetPlayerGridWorldPosition(p.first, p.second));
+            Effect ex = GM.effects["explosion"];
+
+            ex.GetComponent<ParticleSystemRenderer>().sortingOrder = p.second * -10;
+            ex.Play(Player.GetPlayerGridWorldPosition(p.first, p.second));
             if (p.first == GM.player.pos_x && p.second == GM.player.pos_y)
             {
                 Debug.Log(p.first + " " + p.second);
@@ -87,6 +105,7 @@ public class EnemyAttack : MonoBehaviour
                 GM.sound.PlayResource("hit", 1f, new FloatRange(1f, 1.2f));
                 GM.effects["hit"].Play(GM.player.transform.position + Random.insideUnitCircle.Vector3() * .5f + Vector3.up * 1.5f);
             }
+            
             GM.sound.PlayResource("explode", volume, new FloatRange(.5f, .7f));
         }
     }

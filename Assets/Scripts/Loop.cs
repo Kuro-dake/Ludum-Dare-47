@@ -128,13 +128,41 @@ public class Loop : MonoBehaviour
     }
     [SerializeField]
     float bg_movement_duration = 2f;
+    [SerializeField]
+    AudioSource music;
+    [SerializeField]
+    UnityEngine.UI.Image curtain;
+    IEnumerator Win()
+    {
+        yield return new WaitForSeconds(1f);
+        GM.sound.FadeOutSource(music,3f);
+
+        while(curtain.color.a < 1f)
+        {
+            curtain.color += Color.black * Time.deltaTime * .5f;
+            yield return null;
+        }
+        yield return new WaitForSeconds(1f);
+        Application.LoadLevel(2);
+    }
     IEnumerator MoveToNextNode()
     {
+        GM.player.hp = GM.player.orig_hp;
+        GM.player.hp_indicator.SetNumber(GM.player.hp);
+        GM.player.hp_indicator.show = false;
+        
+        
         GM.controls.active = false;
         yield return new WaitForSeconds(.5f);
         GM.player.Disappear();
         yield return GM.island.Play(false);
         yield return new WaitForSeconds(.2f);
+
+        if(GM.enemy_attack.rounds.Count == 0)
+        {
+            yield return StartCoroutine(Win());
+        }
+
         moving_stars.Play();
         yield return StartCoroutine(BGMovementStep());
         
@@ -143,10 +171,11 @@ public class Loop : MonoBehaviour
         yield return new WaitForSeconds(1f);
         yield return GM.island.Play();
 
+        GM.player.SetPosition(new Vector2Int(1, 1));
         GM.player.Appear();
 
         GM.controls.active = true;
-
+        GM.player.hp_indicator.show = true;
         yield return new WaitForSeconds(1f);
     }
     [SerializeField]

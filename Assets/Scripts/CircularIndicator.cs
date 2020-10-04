@@ -33,21 +33,30 @@ public class CircularIndicator : MonoBehaviour
     IEnumerator Pulsate()
     {
         yield return null;
-        Vector3 localscale = transform.localScale;
+        Vector3 localscale = orig_scale;
         while (true)
         {
             transform.localScale = localscale * (1f + (Mathf.Sin(Time.realtimeSinceStartup * 8) + 2f) / 14f);
             yield return null;
         }
     }
-
+    Vector2 orig_scale;
+    private void Awake()
+    {
+        orig_scale = transform.localScale;
+    }
+    Coroutine pulse_routine;
     public void SetNumber(int number)
     {
         max = number;
         current = max;
 
         CreateCircles(max);
-        StartCoroutine(Pulsate());
+        if(pulse_routine != null)
+        {
+            StopCoroutine(pulse_routine);
+        }
+        pulse_routine = StartCoroutine(Pulsate());
     }
     void CreateCircles(int number)
     {

@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 3189039316604136151}
   - component: {fileID: 5662082232420637068}
   - component: {fileID: 2235988267701876185}
+  - component: {fileID: -1397449292046611038}
+  - component: {fileID: 1047505490}
   m_Layer: 0
   m_Name: explosion2
   m_TagString: Untagged
@@ -45,7 +47,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e79304ff394dbc4db07970b6145b42c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reusable: 1
+  reusable: 0
+  disable_on_not_playing: 1
 --- !u!198 &5662082232420637068
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4807,8 +4810,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -941159935
-  m_SortingLayer: 2
+  m_SortingLayerID: 2117136731
+  m_SortingLayer: 4
   m_SortingOrder: 10
   m_RenderMode: 0
   m_SortMode: 0
@@ -4835,3 +4838,65 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &-1397449292046611038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2949616870417403795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_LightType: 3
+  m_BlendStyleIndex: 0
+  m_FalloffIntensity: 0.5
+  m_Color: {r: 0.27107507, g: 0.63959813, b: 0.9150943, a: 1}
+  m_Intensity: 0.46
+  m_LightVolumeOpacity: 0
+  m_ApplyToSortingLayers: 000000003d9afdd1010ae7c703b422be5bf1307e4bb9376a17840d67
+  m_LightCookieSprite: {fileID: 0}
+  m_UseNormalMap: 0
+  m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
+  m_ShadowIntensity: 0
+  m_ShadowVolumeIntensity: 0
+  m_PointLightInnerAngle: 360
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 0
+  m_PointLightOuterRadius: 2.93
+  m_PointLightDistance: 3
+  m_PointLightQuality: 1
+  m_ShapeLightParametricSides: 21
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 1.87
+  m_ShapeLightFalloffSize: 0.5
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
+  m_ShapePath:
+  - {x: -0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: 0.5, z: 0}
+  - {x: -0.5, y: 0.5, z: 0}
+--- !u!114 &1047505490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2949616870417403795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17a7f6a9f8b58e54384600d6edc261cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target_intensity_range:
+    first: 0.46
+    second: 0.66
+  target_radius_range:
+    first: 1.5
+    second: 3
+  duration_range:
+    first: 0.05
+    second: 0.07

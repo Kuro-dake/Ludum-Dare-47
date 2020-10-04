@@ -37,7 +37,8 @@ public class Enemy : Character
     {
         get
         {
-            return GM.keys[position_char];
+            GM.keys[position_char].RandomRotation();
+            return GM.keys[position_char].GetComponent<FollowTransform>();
         }
     }
     char position_char

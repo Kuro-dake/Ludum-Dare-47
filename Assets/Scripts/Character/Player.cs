@@ -31,6 +31,12 @@ public class Player : Character
             _pos_y = Mathf.Clamp(value, 0, 2);
         }
     }
+    public void SetPosition(Vector2Int pos)
+    {
+        pos_x = pos.x;
+        pos_y = pos.y;
+        RefreshPosition(false);
+    }
     public Vector2Int position
     {
         get
@@ -45,14 +51,26 @@ public class Player : Character
         }
     }
     public Mirage mirage { get { return GetComponent<Mirage>(); } }
-    public override void RefreshPosition()
+    public override void RefreshPosition(bool play_mirage = true)
     {
-        GM.mirage.Play(transform.position);
+        if (play_mirage)
+        {
+            GM.mirage.Play(transform.position);
+        }
+        
         base.RefreshPosition();
         mirage.Play(transform.position, true);
+        foreach(SpriteRenderer sr in transform.GetComponentsInChildren<SpriteRenderer>(true))
+        {
+            sr.sortingOrder = position.y * -10 - 5;
+            if(sr.name == "color Merged")
+            {
+                sr.sortingOrder -= 1;
+            }
+        }
         //hp_indicator.transform.position = transform.position + Vector3.down * 1.3f;
     }
-    int orig_hp;
+    public int orig_hp { get; protected set; }
     
     public override void Initialize()
     {
@@ -65,9 +83,10 @@ public class Player : Character
             return GetPlayerGridWorldPosition(pos_x, pos_y);
         } 
     }
+    static Vector2 offset { get { return new Vector2(+1.0f, 0f); } }
     public static Vector2 GetPlayerGridWorldPosition(int x, int y)
     {
-        return new Vector2(-7.92f + x * 2f, -1.35f + y * 1.3f);
+        return new Vector2(-7.92f + x * 2f, -1.35f + y * 1.3f) + offset;
     }
 
     public void Appear()
@@ -89,14 +108,14 @@ public class Player : Character
     public void Ressurect()
     {
         hp = orig_hp;
-        hp_indicator.SetNumber(hp);
-        mirage.Play(transform.position, true);
+        hp_indicator.ModifyNumber(hp);
+        Appear();
         
     }
 
     public override void Die()
     {
-        mirage.Play(transform.position, false);
+        Disappear();
         GM.controls.active = false;
         GM.enemy_attack.StopAttacking();
         GM.loop.PlayerDeath();

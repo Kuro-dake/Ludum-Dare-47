@@ -21,7 +21,7 @@ public abstract class Character : MonoBehaviour
     {
         //UpdateAttack();
     }
-    public virtual void RefreshPosition()
+    public virtual void RefreshPosition(bool play_mirage = true)
     {
         transform.position = world_position;
     }
@@ -100,11 +100,12 @@ public abstract class Character : MonoBehaviour
         {3, new Vector2(6.05f, -2.07f) },
         {4, new Vector2(4.85f, 5.48f) },
     };
+    Vector2 offset { get { return new Vector2(-1.0f, 0f); } }
     public virtual Vector2 world_position
     {
         get
         {
-            return positions[position];
+            return positions[position] + offset;
         }
     }
 }

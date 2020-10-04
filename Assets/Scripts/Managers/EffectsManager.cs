@@ -12,8 +12,11 @@ public class EffectsManager : MonoBehaviour
     public Effect this[string n]{
         get{
             Effect inst = null;
+            
+            
             if (instances.ContainsKey(n))
             {
+                instances[n].RemoveAll(delegate (Effect e) { return e == null; });
                 foreach(Effect e in instances[n])
                 {
                     if (!e.is_playing)
