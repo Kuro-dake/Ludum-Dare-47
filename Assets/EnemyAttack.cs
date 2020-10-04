@@ -70,7 +70,8 @@ public class EnemyAttack : MonoBehaviour
             {
                 Debug.Log(p.first + " " + p.second);
                 GM.loop.all_enemies[0].Attack(GM.player);
-
+                GM.ShakeScreen();
+                GM.sound.PlayResource("hit", 1f, new FloatRange(1f, 1.2f));
             }
             GM.sound.PlayResource("explode", volume, new FloatRange(.5f, .7f));
         }

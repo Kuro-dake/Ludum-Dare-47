@@ -18,9 +18,12 @@ public class Controls : MonoBehaviour
         {KeyCode.D, Vector2Int.right },
     };
     Dictionary<KeyCode, int> enemy_positions = new Dictionary<KeyCode, int>() {
+        {KeyCode.Q, 0 },
         {KeyCode.A,  1},
         {KeyCode.D, 2 },
-        {KeyCode.Q, 0 }
+        {KeyCode.S, 3 },
+        {KeyCode.W, 4 },
+
     };
     // Update is called once per frame
     void Update()
@@ -50,7 +53,7 @@ public class Controls : MonoBehaviour
                 if (Input.GetKeyDown(kv.Key))
                 {
                     GM.player.position += kv.Value;
-                    GM.sound.PlayResource("move", .05f, new FloatRange(3.1f, 3.3f));
+                    GM.sound.PlayResource("move", .02f, new FloatRange(2.1f, 2.3f));
                 }
             }
         }
@@ -63,7 +66,7 @@ public class Controls : MonoBehaviour
                     if (Input.GetKeyDown(kv.Key))
                     {
                         Enemy e = GM.loop.GetEnemyAtPosition(kv.Value);
-                        if (e.shielded)
+                        if (e != null && e.shielded)
                         {
                             Attack(e);
                         }
@@ -84,7 +87,8 @@ public class Controls : MonoBehaviour
         // attack enemy
         GM.mirage.Play(e.transform.position + Vector3.down * .5f + Vector3.left * .5f);
         GM.player.mirage.Play(GM.player.transform.position, true);
-        GM.sound.PlayResource("move", .05f, new FloatRange(3.1f, 3.3f));
-        GM.sound.PlayResource("hit", .5f, new FloatRange(1f, 1.2f));
+        GM.sound.PlayResource("move", .02f, new FloatRange(2.1f, 2.3f));
+        GM.sound.PlayResource("hit", 1f, new FloatRange(1f, 1.2f));
+        GM.ShakeScreen();
     }
 }

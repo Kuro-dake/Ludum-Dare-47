@@ -59,7 +59,7 @@ public abstract class Character : MonoBehaviour
     }*/
 
     [SerializeField]
-    int hp = 10;
+    public int hp = 10;
     public void ReceiveDamage(int damage = 1)
     {
         if (!is_alive)

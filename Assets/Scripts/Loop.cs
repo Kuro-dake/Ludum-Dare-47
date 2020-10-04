@@ -23,9 +23,10 @@ public class Loop : MonoBehaviour
             all_enemies.RemoveAll(delegate (Enemy e) { return !e.is_alive; });
             yield return null;
         }
+        GM.enemy_attack.can_attack = false;
     }
     Queue<LoopRound> rounds = new Queue<LoopRound>();
-    Enemy CreateEnemy(int position)
+    Enemy CreateEnemy(int position, int hp)
     {
         Enemy new_enemy = null;
         switch(position){
@@ -62,6 +63,7 @@ public class Loop : MonoBehaviour
 
         all_enemies.Add(new_enemy);
         new_enemy.position = position;
+        new_enemy.hp = 1;
         new_enemy.Initialize();
 
         return new_enemy;
@@ -71,7 +73,7 @@ public class Loop : MonoBehaviour
         
         for(int i = 0; i< 5; i++)
         {
-            CreateEnemy(i);
+            CreateEnemy(i, 1);
         }
 
 

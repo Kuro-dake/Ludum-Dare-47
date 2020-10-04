@@ -16,13 +16,59 @@ public class GM : MonoBehaviour
 
     void Initialize()
     {
-        enemy_attack.Initialize();
+
+        StartCoroutine(Appear());
+    }
+
+    IEnumerator Appear()
+    {
+        while (!Input.GetKeyDown(KeyCode.Space))
+        {
+            yield return null;
+        }
+
+        yield return intro.Play();
+
+        player.mirage.Play(player.transform.position, true);
+        player.transform.Find("someone").Find("eyeglow").gameObject.SetActive(true);
+        player.transform.Find("someone").Find("eyeglow (1)").gameObject.SetActive(true);
+        GM.sound.PlayResource("move", .2f, new FloatRange(2.1f, 2.3f));
+        /*enemy_attack.Initialize();
         player.Initialize();
-        loop.Initialize();
+        loop.Initialize();*/
+    }
+
+    public bool shake_screen = false;
+
+    public float shake_screen_strength = .2f;
+    Vector3 shake_center;
+    IEnumerator ShakeScreenRoutine()
+    {
+        float shakescreen_inst = shake_screen_strength;
+        Camera.main.GetComponent<Cinemachine.CinemachineBrain>().enabled = false;
+        while (shakescreen_inst > .01f)
+        {
+            shakescreen_inst -= Time.fixedDeltaTime * 2;
+            Camera.main.transform.position = shake_center + new Vector3(Random.Range(-1, 2), Random.Range(-1, 2), 0f) * shakescreen_inst;
+
+
+            yield return null;
+        }
+        Camera.main.GetComponent<Cinemachine.CinemachineBrain>().enabled = true;
+        Camera.main.transform.position = shake_center;
+    }
+
+    public static void ShakeScreen()
+    {
+        //GM.sound.PlayResource();
+
+        inst.shake_center = Camera.main.transform.position;
+        //inst.shake_screen_strength = strength;
+        inst.StartCoroutine(inst.ShakeScreenRoutine());
     }
 
     #region SingletonDefs
-    
+
     [SerializeField]
     Player _player;
     public static Player player { get { return inst._player; } }
@@ -84,6 +130,8 @@ public class GM : MonoBehaviour
 
     [SerializeField]
     CircularIndicator _indicator_prefab;
+    [SerializeField]
+    introPlayer intro;
     public static CircularIndicator indicator_prefab
     {
         get { return inst._indicator_prefab; }
