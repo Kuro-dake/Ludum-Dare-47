@@ -9,6 +9,25 @@ public class LoopRound
     Queue<List<Pair<int, int>>> attacked_positions_queue = new Queue<List<Pair<int, int>>>();
     static List<Pair<int, int>> to_be_attacked_template = new List<Pair<int, int>>();
 
+    public LoopRound clone
+    {
+        get
+        {
+            LoopRound ret = new LoopRound();
+            ret.current_rounds_queue = new Queue<Queue<List<Pair<int, int>>>>(current_rounds_queue);
+            ret.rounds_queue = new Queue<Queue<List<Pair<int, int>>>>(rounds_queue);
+            ret.attacked_positions_queue = new Queue<List<Pair<int, int>>>(attacked_positions_queue);
+            ret.rounds_number = rounds_number;
+            ret.rounds_sequence = rounds_sequence;
+            ret.hand_hp = hand_hp;
+            ret.head_hp = head_hp;
+            ret.enemy_number = enemy_number;
+            return ret;
+        }
+    }
+
+    private LoopRound() { }
+
     static List<Pair<int, int>> GetToBeAttacked(int free_spots)
     {
         List<Pair<int, int>> to_be_attacked = new List<Pair<int, int>>();
@@ -21,7 +40,8 @@ public class LoopRound
         return to_be_attacked;
     }
     public int rounds_number { get; protected set; }
-
+    public int rounds_sequence { get; protected set; }
+    
     public int hand_hp = 3;
     public int head_hp = 3;
     public int enemy_number = 3;
@@ -30,6 +50,7 @@ public class LoopRound
     {
         Random.State prev_state = Random.state;
         rounds_number = attack_rounds;
+        rounds_sequence = attack_rounds_sequence;
         // seed here
         for (int round = 0; round < attack_rounds; round++)
         {
@@ -81,4 +102,6 @@ public class LoopRound
             }
         }
     }
+
+    
 }

@@ -7,7 +7,7 @@ public class FollowTransform : MonoBehaviour
     public Transform to_follow;
     [SerializeField]
     public bool auto_offset = true;
-    public Vector2 offset;
+    public Vector2 offset = Vector2.zero;
     [SerializeField]
     public float x_multiplier = 1f, y_multiplier = 1f;
 
@@ -41,8 +41,7 @@ public class FollowTransform : MonoBehaviour
         }
         initialized = true;
         
-
-        offset = auto_offset ? transform.position.Vector2() - to_follow_pos_mod : Vector2.zero;
+        offset = auto_offset ? transform.position.Vector2() - to_follow_pos_mod : offset;
     }
 
     protected void LateUpdate()

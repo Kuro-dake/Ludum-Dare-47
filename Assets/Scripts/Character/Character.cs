@@ -64,7 +64,7 @@ public abstract class Character : MonoBehaviour
 
     [SerializeField]
     public int hp = 10;
-    public void ReceiveDamage(int damage = 1)
+    public virtual void ReceiveDamage(int damage = 1)
     {
         if (!is_alive)
         {
@@ -78,9 +78,10 @@ public abstract class Character : MonoBehaviour
         }
     }
 
-    protected virtual void Die()
+    public virtual void Die()
     {
         Destroy(gameObject);
+        
     }
 
     public bool is_alive
@@ -93,11 +94,11 @@ public abstract class Character : MonoBehaviour
 
     public int position;
     static Dictionary<int, Vector2> positions = new Dictionary<int, Vector2>() {
-        {0, new Vector2(5.78f, 1.43f) },
+        {0, new Vector2(5.78f, .43f) },
         {1, new Vector2(3.13f, -1.06f) },
         {2, new Vector2(8.56f, 0.79f) },
         {3, new Vector2(6.05f, -2.07f) },
-        {4, new Vector2(4.85f, 6.48f) },
+        {4, new Vector2(4.85f, 5.48f) },
     };
     public virtual Vector2 world_position
     {

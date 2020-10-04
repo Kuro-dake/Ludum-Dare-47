@@ -17,7 +17,7 @@ public class Controls : MonoBehaviour
         {KeyCode.A, Vector2Int.left },
         {KeyCode.D, Vector2Int.right },
     };
-    Dictionary<KeyCode, int> enemy_positions = new Dictionary<KeyCode, int>() {
+    public static Dictionary<KeyCode, int> enemy_positions = new Dictionary<KeyCode, int>() {
         {KeyCode.Q, 0 },
         {KeyCode.A,  1},
         {KeyCode.D, 2 },

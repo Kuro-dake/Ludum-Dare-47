@@ -19,9 +19,46 @@ public class Loop : MonoBehaviour
         } }
     public void Initialize()
     {
-        StartCoroutine(EnemyLoop());
+        StartEnemyLoop();
     }
 
+    public void PlayerDeath()
+    {
+        StartCoroutine(PlayerDeathStep());
+    }
+    IEnumerator PlayerDeathStep()
+    {
+        while (!Input.GetKeyDown(KeyCode.Space))
+        {
+            yield return null;
+        }
+        GM.player.Ressurect();
+        all_enemies.ForEach(delegate (Enemy e) { e.Die(); });
+        all_enemies.Clear();
+        
+        GM.controls.active = true;
+        GM.enemy_attack.StartAttacking(false);
+    }
+    Coroutine enemy_loop;
+    public void StartEnemyLoop()
+    {
+
+        enemy_loop = StartCoroutine(EnemyLoop());
+    }
+    
+    IEnumerator EnemyLoop()
+    {
+        while (true)
+        {
+
+            GM.enemy_attack.StartAttacking();
+    
+            yield return WatchAlive();
+            GM.enemy_attack.StopAttacking();
+            yield return MoveToNextNode();
+
+        }
+    }
     IEnumerator WatchAlive()
     {
         while(all_enemies.Count > 0)
@@ -140,18 +177,7 @@ public class Loop : MonoBehaviour
         }
         
     }
-    IEnumerator EnemyLoop()
-    {
-        while (true)
-        {
-            
-            GM.enemy_attack.StartAttacking();
-            yield return WatchAlive();
-            GM.enemy_attack.StopAttacking();
-            yield return MoveToNextNode();
-            
-        }
-    }
+    
 
     public Enemy GetEnemyAtPosition(int position)
     {

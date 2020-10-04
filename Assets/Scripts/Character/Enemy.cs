@@ -6,6 +6,7 @@ public class Enemy : Character
 {
 
     bool _shielded = false;
+    
     public bool shielded { 
         get {
             return _shielded;
@@ -20,15 +21,47 @@ public class Enemy : Character
             if (value)
             {
                 shield.Play(transform.position);
-
+                
+                letter_follow.to_follow = transform;
+                letter_follow.gameObject.SetActive(true);
             }
             else
             {
                 shield.Stop();
+                letter_follow.gameObject.SetActive(false);
             }
             
         }
     }
+    FollowTransform letter_follow
+    {
+        get
+        {
+            return GM.keys[position_char];
+        }
+    }
+    char position_char
+    {
+        get { 
+            foreach(KeyValuePair<char,int> kv in enemy_positions)
+            {
+                if(kv.Value == position)
+                {
+                    return kv.Key;
+                }
+            }
+            throw new UnityException("No char for this position.");
+        }
+    }
+    public static Dictionary<char, int> enemy_positions = new Dictionary<char, int>() {
+        {'q', 0 },
+        {'a', 1 },
+        {'d', 2 },
+        {'s', 3 },
+        {'w', 4 },
+
+    };
+
     public bool head = false;
 
     public override void Initialize()
@@ -65,10 +98,20 @@ public class Enemy : Character
 
     }
 
-    protected override void Die()
+    public override void Die()
     {
+
+        letter_follow.gameObject.SetActive(false);
         base.Die();
+        Destroy(hp_indicator.gameObject);
         GM.loop.ShowHideHeadHP();
         shield.Stop();
+        
+    }
+
+    public override void ReceiveDamage(int damage = 1)
+    {
+        base.ReceiveDamage(damage);
+        //letter_follow.gameObject.SetActive(false);
     }
 }

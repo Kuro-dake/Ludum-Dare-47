@@ -21,7 +21,7 @@ public class islandPlayer : MonoBehaviour
     [SerializeField]
     Light2D light;
     [SerializeField]
-    float orig_light_radius, orig_light_intensity;
+    float orig_light_radius, orig_light_intensity, appear_duration = 3f, disappear_duration = .2f;
     IEnumerator PlayStep(bool appear)
     {
         
@@ -51,7 +51,7 @@ public class islandPlayer : MonoBehaviour
 
         transform.localScale = orig_scale;
 
-        float duration_inverse = 1f / 3f;
+        float duration_inverse = 1f / (appear ? appear_duration : disappear_duration);
 
         while (current < 1f)
         {

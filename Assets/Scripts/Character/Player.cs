@@ -52,10 +52,13 @@ public class Player : Character
         mirage.Play(transform.position, true);
         //hp_indicator.transform.position = transform.position + Vector3.down * 1.3f;
     }
+    int orig_hp;
+    
     public override void Initialize()
     {
         pos_x = pos_y = 1;
         base.Initialize();
+        orig_hp = hp;
     }
     public override Vector2 world_position { get
         {
@@ -83,10 +86,20 @@ public class Player : Character
         GM.sound.PlayResource("move", .2f, new FloatRange(2.1f, 2.3f));
     }
 
-    protected override void Die()
+    public void Ressurect()
     {
-        gameObject.SetActive(false);
+        hp = orig_hp;
+        hp_indicator.SetNumber(hp);
+        mirage.Play(transform.position, true);
+        
+    }
+
+    public override void Die()
+    {
+        mirage.Play(transform.position, false);
+        GM.controls.active = false;
         GM.enemy_attack.StopAttacking();
+        GM.loop.PlayerDeath();
     }
     /*[SerializeField]
     CircularIndicator _hp_indicator;

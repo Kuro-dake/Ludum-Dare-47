@@ -13,7 +13,7 @@ public class EnemyAttack : MonoBehaviour
 
         List<LoopRound> rq = new List<LoopRound>() {
             //new LoopRound(1,3,new IntRange(6,8)),
-            //new LoopRound(2,1,new IntRange(6,8),1,4,1),
+            new LoopRound(2,1,new IntRange(6,8),1,4,1),
             new LoopRound(5,4,new IntRange(4,5),5,8,16)
         };
 
@@ -29,12 +29,24 @@ public class EnemyAttack : MonoBehaviour
         }
     }
 
-    public void StartAttacking()
+    public void StartAttacking(bool dequeue = true)
     {
         StopAttacking();
-        if (rounds.Count > 0)
+        if (rounds.Count > 0 || !dequeue)
         {
-            current_loop_round = rounds.Dequeue();
+            
+            if (dequeue)
+            {
+                current_loop_round = rounds.Dequeue();
+                current_loop_round_full = current_loop_round.clone;
+            }
+            else
+            {
+                current_loop_round = current_loop_round_full.clone;
+            }
+
+            
+
             GM.loop.CreateEnemies();
             attack_routine = StartCoroutine(AttackStep());
         }
@@ -96,7 +108,7 @@ public class EnemyAttack : MonoBehaviour
             //can_attack_indicator.gameObject.SetActive(value);
         } }
     public LoopRound current_loop_round;
-
+    public LoopRound current_loop_round_full;
     void SetShields(bool shields)
     {
         if (!shields)

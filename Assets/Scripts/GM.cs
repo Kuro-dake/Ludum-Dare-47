@@ -6,17 +6,18 @@ public class GM : MonoBehaviour
 {
     
     static GM inst;
-    
+
     
     private void Awake()
     {
         inst = this;
         Initialize();
+        
     }
 
     void Initialize()
     {
-
+        keys.HideAll();
         StartCoroutine(Appear());
     }
 
@@ -29,15 +30,22 @@ public class GM : MonoBehaviour
 
         yield return _island.Play();
 
-        
+        //player.Appear();
+        player.Initialize();
+        keys.ShowControls();
+        controls.active = true;
+        while (!Input.GetKeyDown(KeyCode.W) && !Input.GetKeyDown(KeyCode.A) && !Input.GetKeyDown(KeyCode.S) && !Input.GetKeyDown(KeyCode.D))
+        {
+            yield return null;
+        }
         
         enemy_attack.Initialize();
-        player.Initialize();
+        
         loop.Initialize();
 
-        player.Appear();
+        
 
-        controls.active = true;
+        
     }
 
     public bool shake_screen = false;
@@ -142,5 +150,8 @@ public class GM : MonoBehaviour
     {
         get { return inst._indicator_prefab; }
     }
+    [SerializeField]
+    KeyManager _keys;
+    public static KeyManager keys { get { return inst._keys; } }
     #endregion
 }
